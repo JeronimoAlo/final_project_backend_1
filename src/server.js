@@ -1,5 +1,6 @@
 import express from 'express';
 import { productManager } from './managers/product-manager.js';
+import { cartManager } from './managers/cart-manager.js';
 
 const app = express();
 const PORT = 8080;
@@ -55,6 +56,37 @@ app.delete('/api/products/:pid', async (req, res) => {
         const { pid } = req.params;
         await productManager.delete(pid);
         res.status(200).send({ message: 'Producto eliminado correctamente' });
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+// Endpoint para crear un nuevo carrito.
+app.post('/api/carts', async (req, res) => {
+    try {
+        const newCart = await cartManager.addCart();
+        res.status(201).send(newCart);
+    } catch (error) {
+        res.status(500).send({ error: 'Error al crear el carrito' });
+    }
+});
+
+// Endpoint para obtener los productos en un carrito por su ID.
+app.get('/api/carts/:cid', async (req, res) => {
+    try {
+        const { cid } = req.params;
+        const products = await cartManager.listProductsInCart(cid);
+        res.status(200).send(products);
+    } catch (error) {
+        res.status(404).send({ error: error.message });
+    }
+});
+
+app.post('/api/carts/:cid/product/:pid', async (req, res) => {
+    try {
+        const { cid, pid } = req.params;
+        const updatedCart = await cartManager.addProductToCart(cid, pid);
+        res.status(200).send(updatedCart);
     } catch (error) {
         res.status(400).send({ error: error.message });
     }
