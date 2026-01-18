@@ -1,0 +1,25 @@
+{
+  "name": "final_project_backend_1",
+  "version": "1.0.0",
+  "description": "Repository for the final project - node backend 1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeronimoAlo/final_project_backend_1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/JeronimoAlo/final_project_backend_1/issues"
+  },
+  "homepage": "https://github.com/JeronimoAlo/final_project_backend_1#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "uuid": "^13.0.0"
+  }
+}

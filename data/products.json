@@ -1,0 +1,27 @@
+[
+  {
+    "id": "786d00a7-0672-4858-b93e-93cfd38e2a9c",
+    "title": "Botella Deportiva 750ml",
+    "description": "Botella plástica reutilizable libre de BPA",
+    "code": "BOT-750-PL",
+    "price": 18000,
+    "status": true,
+    "stock": 100,
+    "category": "accesorios",
+    "thumbnails": []
+  },
+  {
+    "id": "e1d4883c-79ba-4d83-a474-5d6611877f6a",
+    "title": "Remera Dry Fit",
+    "description": "Remera deportiva de secado rápido",
+    "code": "REM-DRY-010",
+    "price": 135000,
+    "status": true,
+    "stock": 18,
+    "category": "indumentaria",
+    "thumbnails": [
+      "/images/products/remera-dryfit-frente.jpg",
+      "/images/products/remera-dryfit-espalda.jpg"
+    ]
+  }
+]
