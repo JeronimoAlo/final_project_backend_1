@@ -21,8 +21,12 @@ Los datos se almacenan y persisten en:
 
 ## Vistas (Handlebars)
 Se agregó una vista en Handlebars para productos en tiempo real:
-- `GET /realtimeproducts` renderiza `realTimeProducts.handlebars`.
+- `GET /realtimeproducts` renderiza `realTimeProducts.handlebars` y utiliza websockets.
 - La vista muestra la lista inicial de productos.
+
+Además se agrega una vista estática:
+- `GET /home` renderiza `home.handlebars` con la lista de productos sin websockets.
+- `GET /` redirige a `/home`.
 
 ## WebSockets (Socket.IO)
 La vista `realTimeProducts` se actualiza automáticamente cuando:

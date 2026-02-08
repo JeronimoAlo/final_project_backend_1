@@ -1,0 +1,9 @@
+<h3>Lista de productos sin websocket</h3>
+
+<ul>
+  {{#each products}}
+    <li>
+      <strong>{{this.title}}</strong> - ${{this.price}} (stock: {{this.stock}})
+    </li>
+  {{/each}}
+</ul>
