@@ -19,6 +19,19 @@ Los datos se almacenan y persisten en:
 - `data/products.json`
 - `data/carts.json`
 
+## Vistas (Handlebars)
+Se agregó una vista en Handlebars para productos en tiempo real:
+- `GET /realtimeproducts` renderiza `realTimeProducts.handlebars`.
+- La vista muestra la lista inicial de productos.
+
+## WebSockets (Socket.IO)
+La vista `realTimeProducts` se actualiza automáticamente cuando:
+- Se crea un producto.
+- Se elimina un producto.
+
+Eventos usados:
+- Servidor emite `products:list` con la lista actualizada.
+
 ## Endpoints
 
 ### Productos
@@ -56,4 +69,4 @@ Los datos se almacenan y persisten en:
   - `quantity` (se incrementa de a 1 si ya existe)
 
 ## Notas
-- No incluye interfaz visual. Se prueba con Postman o cualquier cliente HTTP.
+- Incluye una vista en tiempo real para productos en `/realtimeproducts`.
