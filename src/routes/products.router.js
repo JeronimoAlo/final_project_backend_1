@@ -28,6 +28,14 @@ productsRouter.get('/:pid', async (req, res) => {
 productsRouter.post('/', async (req, res) => {
     try {
         const product = await productManager.addProduct(req.body);
+
+        // Emitir actualización a todos los clientes conectados.
+        const io = req.app.get('io');
+        if (io) {
+            const products = await productManager.getAllProducts();
+            io.emit('products:list', products);
+        }
+
         res.status(201).send(product);
     } catch (error) {
         res.status(400).send({ error: error.message });
@@ -50,6 +58,14 @@ productsRouter.delete('/:pid', async (req, res) => {
     try {
         const { pid } = req.params;
         await productManager.delete(pid);
+
+        // Emitir actualización a todos los clientes conectados.
+        const io = req.app.get('io');
+        if (io) {
+            const products = await productManager.getAllProducts();
+            io.emit('products:list', products);
+        }
+
         res.status(200).send({ message: 'Producto eliminado correctamente' });
     } catch (error) {
         res.status(400).send({ error: error.message });

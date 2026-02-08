@@ -4,7 +4,7 @@
   "description": "Repository for the final project - node backend 1",
   "main": "index.js",
   "scripts": {
-    "start": "node --watch src/server.js"
+    "start": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,18 @@
   "homepage": "https://github.com/JeronimoAlo/final_project_backend_1#readme",
   "dependencies": {
     "express": "^5.2.1",
+    "express-handlebars": "^8.0.5",
+    "handlebars": "^4.7.8",
+    "socket.io": "^4.7.5",
     "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "data/products.json",
+      "data/carts.json"
+    ]
   }
 }

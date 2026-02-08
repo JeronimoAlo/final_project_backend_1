@@ -1,0 +1,11 @@
+<h3>Lista de productos</h3>
+<ul id="products-list">
+  {{#each products}}
+    <li data-id="{{this.id}}">
+      <strong>{{this.title}}</strong> - ${{this.price}} (stock: {{this.stock}})
+    </li>
+  {{/each}}
+</ul>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
