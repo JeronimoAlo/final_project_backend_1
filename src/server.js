@@ -1,11 +1,13 @@
 import express from 'express';
+import { initMongoDB } from './config/db_connection.js';
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
-import { __dirname } from "./utils.js";
-import productsRouter from './routes/products.router.js';
-import cartsRouter from './routes/carts.router.js';
-import viewsRouter from './routes/views.router.js';
-import { productManager } from './managers/product-manager.js';
+import { __dirname } from "./utils/utils.js";
+import productsRouter from './routes/products-router.js';
+import cartsRouter from './routes/carts-router.js';
+import viewsRouter from './routes/views-router.js';
+import { productRepository } from './repositories/product-repository.js';
+import { errorHandler } from './middlewares/error-handler.js';
 
 const app = express();
 const PORT = 8080;
@@ -22,6 +24,13 @@ app.use('/', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
+// Middleware de manejo de errores personalizado.
+app.use(errorHandler);
+
+initMongoDB()
+  .then(() => console.log('Conexión a MongoDB establecida correctamente'))
+  .catch((error) => console.error('Error al conectar a MongoDB:', error));
+
 const httpServer = app.listen(PORT, () => console.log(`Servidor escuchando en el puerto ${PORT}`));
 const socketServer = new Server(httpServer);
 
@@ -35,6 +44,6 @@ socketServer.on('connection', async (socket) => {
     console.log('Cliente desconectado', socket.id);
   })
 
-  const products = await productManager.getAllProducts();
+  const products = await productRepository.getAllProducts();
   socket.emit('products:list', products);
 });

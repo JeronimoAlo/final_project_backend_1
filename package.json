@@ -1,10 +1,10 @@
 {
   "name": "final_project_backend_1",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "Repository for the final project - node backend 1",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon src/server.js"
+    "start": "node --env-file=.env src/server.js"
   },
   "repository": {
     "type": "git",
@@ -22,16 +22,9 @@
     "express": "^5.2.1",
     "express-handlebars": "^8.0.5",
     "handlebars": "^4.7.8",
+    "mongoose": "^9.2.3",
+    "mongoose-paginate-v2": "^1.9.1",
     "socket.io": "^4.7.5",
     "uuid": "^13.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.0"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "data/products.json",
-      "data/carts.json"
-    ]
   }
 }
