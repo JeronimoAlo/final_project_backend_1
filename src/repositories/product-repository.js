@@ -1,22 +1,52 @@
 import mongoose from 'mongoose';
 import { ProductModel } from '../models/product-model.js';
 
+const buildFilter = (query) => {
+    if (!query) return {};
+
+    if (query === 'true' || query === 'false') {
+        return { status: query === 'true' };
+    }
+
+    return {
+        // Con options: 'i' hacemos que la búsqueda sea case-insensitive
+        category: { $regex: `^${query}$`, $options: 'i' }
+    };
+};
+
 class ProductRepository {
     constructor(model) {
         this.model = model;
     }
 
-    async getAllProducts() {
+    async getAllProducts(options) {
         try {
-            return await this.model.find();
+            // Si no pasamos opciones, devolvemos todos los productos sin paginar ni filtrar
+            if (typeof options === 'undefined') {
+                return await this.model.find();
+            }
+
+            const limit = Number.parseInt(options.limit, 10) || 10;
+            const page = Number.parseInt(options.page, 10) || 1;
+            const sort = options.sort === 'asc' || options.sort === 'desc'
+                ? options.sort
+                : undefined;
+            const filter = buildFilter(options.query);
+
+            const result = await this.model.paginate(filter, {
+                limit,
+                page,
+                sort: sort ? { price: sort === 'asc' ? 1 : -1 } : undefined
+            });
+
+            return result;
         } catch (error) {
-            throw new Error('Error al obtener productos');
+            throw new Error(`Error al obtener productos: ${error.message}`);
         }
     }
 
     async getById(id) {
         try {
-            // chequea que el id sea un ObjectId válido antes de intentar buscar el producto.
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 throw new Error('Producto no encontrado');
             }
@@ -89,7 +119,6 @@ class ProductRepository {
 
     async update(id, obj) {
         try {
-            // Evita que se modifique el id del producto.
             if (Object.prototype.hasOwnProperty.call(obj, '_id') || Object.prototype.hasOwnProperty.call(obj, 'id')) {
                 throw new Error('No se puede modificar el id del producto');
             }
@@ -106,7 +135,7 @@ class ProductRepository {
             }
 
             const updatedProduct = await this.model.findByIdAndUpdate(id, obj, {
-                new: true,
+                returnDocument: 'after',
                 runValidators: true
             });
 

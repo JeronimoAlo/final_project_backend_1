@@ -17,8 +17,28 @@ class ProductController {
     // Endpoint para obtener todos los productos de la tienda.
     async getAllProducts(req, res, next) {
         try {
-            const products = await this.repository.getAllProducts();
-            res.json(products);
+            const result = await this.repository.getAllProducts(req.query);
+            const queryParams = new URLSearchParams(req.query);
+            const buildLink = (targetPage) => {
+                if (!targetPage) return null;
+
+                queryParams.set('page', targetPage);
+                return `${req.baseUrl}${req.path}?${queryParams.toString()}`;
+            };
+
+            res.json({
+                status: 'success',
+                payload: result.docs,
+                totalPages: result.totalPages,
+                prevPage: result.prevPage,
+                nextPage: result.nextPage,
+                page: result.page,
+                hasPrevPage: result.hasPrevPage,
+                hasNextPage: result.hasNextPage,
+                // Con buildLink generamos las URLs para las páginas anterior y siguiente, si existen.
+                prevLink: buildLink(result.prevPage),
+                nextLink: buildLink(result.nextPage)
+            });
         } catch (error) {
             next(error);
         }

@@ -4,8 +4,12 @@ import { CustomError } from '../utils/custom-error.js';
 
 const cartsRouter = Router();
 
-cartsRouter.post('/', cartController.addCart);
 cartsRouter.get('/:cid', cartController.listProductsInCart);
-cartsRouter.post('/:cid/product/:pid', cartController.addProductToCart);
+cartsRouter.post('/', cartController.addCart);
+cartsRouter.post('/:cid/products/:pid', cartController.addProductToCart);
+cartsRouter.delete('/:cid', cartController.deleteCart);
+cartsRouter.delete('/:cid/products/:pid', cartController.deleteProductFromCart);
+cartsRouter.put('/:cid', cartController.updateCartProducts);
+cartsRouter.put('/:cid/products/:pid', cartController.updateProductQuantity);
 
 export default cartsRouter;
